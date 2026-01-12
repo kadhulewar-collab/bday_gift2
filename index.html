@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday Shreya 🎉</title>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0b0b0b, #1a1a1a);
+      color: white;
+      text-align: center;
+      padding: 50px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+    }
+    h1 {
+      color: #ff0000;
+      text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    }
+    #text {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      max-width: 600px;
+      margin: 20px auto;
+      min-height: 100px;
+      white-space: pre-wrap; /* Keeps line breaks */
+    }
+    button {
+      margin: 10px;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      background-color: #e10600; /* F1 Red */
+      color: white;
+      transition: transform 0.2s, background-color 0.2s;
+      box-shadow: 0 4px 15px rgba(225, 6, 0, 0.3);
+    }
+    button:hover {
+      transform: scale(1.05);
+      background-color: #ff1e1e;
+    }
+    button:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+
+<body>
+
+<h1 id="title">🎉 Birthday Surprise 🎉</h1>
+<p id="text">Click the button to start!</p>
+
+<div id="buttons">
+  <button onclick="startExperience()">Open Card ✉️</button>
+</div>
+
+<audio id="typingSound" loop>
+  <source src="https://www.soundjay.com/communication/typewriter-finger-tapping-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let chosenTeam = "";
+let wrongCount = 0;
+const textBox = document.getElementById("text");
+const typingSound = document.getElementById("typingSound");
+let typingInterval;
+
+// Function to handle the typing effect with sound
+function typeText(message, speed = 40) {
+  clearInterval(typingInterval);
+  
+  // Start sound
+  typingSound.currentTime = 0;
+  typingSound.play().catch(e => console.log("Audio play blocked until interaction"));
+
+  textBox.innerHTML = "";
+  let i = 0;
+
+  typingInterval = setInterval(() => {
+    textBox.innerHTML += message.charAt(i);
+    i++;
+
+    if (i >= message.length) {
+      clearInterval(typingInterval);
+      typingSound.pause(); // Stop sound when typing ends
+    }
+  }, speed);
+}
+
+function startExperience() {
+    document.getElementById("title").innerText = "🎉 Happy Birthday Shreya 🎉";
+    typeText("Hope your day is as special as you are 💖");
+    document.getElementById("buttons").innerHTML = `<button onclick="thanks()">Thanks 😊</button>`;
+}
+
+function thanks() {
+  typeText("Ready for your gift? 🎁");
+  document.getElementById("buttons").innerHTML = `
+    <button onclick="ready()">Yes 😍</button>
+    <button onclick="ready()">Of course 😄</button>
+  `;
+}
+
+function ready() {
+  typeText("I bought you a jacket 🧥");
+  document.getElementById("buttons").innerHTML = `
+    <button onclick="chooseTeam()">Okay 👀</button>
+  `;
+}
+
+function chooseTeam() {
+  typeText("Choose your favorite F1 team 🏎️");
+  document.getElementById("buttons").innerHTML = `
+    <button onclick="confirmTeam('Ferrari')">Ferrari</button>
+    <button onclick="confirmTeam('Mercedes')">Mercedes</button>
+    <button onclick="confirmTeam('McLaren')">McLaren</button>
+    <button onclick="confirmTeam('Aston Martin')">Aston Martin</button>
+    <button onclick="confirmTeam('Alpine')">Alpine</button>
+    <button onclick="confirmTeam('Williams')">Williams</button>
+    <button onclick="confirmTeam('Red Bull')">Red Bull 🟥🟦</button>
+  `;
+}
+
+function confirmTeam(team) {
+  if (team === "Red Bull") {
+    redbullDirect();
+    return;
+  }
+
+  chosenTeam = team;
+  wrongCount = 0;
+  typeText(`You chose ${team} 🤨 Are you sure?`);
+  document.getElementById("buttons").innerHTML = `
+    <button onclick="thinking()">Yes</button>
+    <button onclick="chooseTeam()">No</button>
+  `;
+}
+
+function thinking() {
+  typeText("I can see this 😏 You know where this is going...");
+  document.getElementById("buttons").innerHTML = `
+    <button onclick="betterTeam()">Yes</button>
+    <button onclick="betterTeam()">No</button>
+  `;
+}
+
+function betterTeam() {
+  typeText("So… you see what’s the better team?");
+  document.getElementById("buttons").innerHTML = `
+    <button onclick="wrongChoice()">${chosenTeam}</button>
+    <button onclick="redbullPath()">Red Bull 🟥🟦</button>
+  `;
+}
+
+function wrongChoice() {
+  wrongCount++;
+
+  if (wrongCount === 1) {
+    typeText("Nope ❌ you’re wrong. Go again.");
+    document.getElementById("buttons").innerHTML =
+      `<button onclick="betterTeam()">Okay 😅</button>`;
+  } 
+  else if (wrongCount === 2) {
+    typeText("You clearly don’t have F1 knowledge 😭 Go again.");
+    document.getElementById("buttons").innerHTML =
+      `<button onclick="betterTeam()">Fine 😐</button>`;
+  } 
+  else {
+    typeText(
+      "Well… the jacket is already Red Bull F1 😌\nDid you want something else?"
+    );
+    document.getElementById("buttons").innerHTML = `
+      <button onclick="hurt()">Yes (damn that hurts 💔)</button>
+      <button onclick="redbullPath()">No, I’ll go with Red Bull 😎</button>
+    `;
+  }
+}
+
+function hurt() {
+  typeText(
+    "Sorry 😬 I already bought you a Red Bull F1 jacket.\n\n" +
+    "Thought you would like it 🥺\n\n" +
+    "Your jacket is at:\n\n" +
+    "📍 YOUR ADDRESS GOES HERE\n\n" +
+    "If you don’t want it… I’ll take it back with me 😔",
+    30
+  );
+  document.getElementById("buttons").innerHTML = `
+    <button onclick="greeting()">Continue 💖</button>
+  `;
+}
+
+function redbullPath() {
+  document.getElementById("title").innerText = "🟥 RED BULL RACING 🟦";
+  typeText(
+    "Excellent choice 😌🔥\n\n" +
+    "Your jacket is at:\n\n" +
+    "📍 YOUR ADDRESS GOES HERE",
+    30
+  );
+  document.getElementById("buttons").innerHTML = `
+    <button onclick="greeting()">Continue 💖</button>
+  `;
+}
+
+function redbullDirect() {
+  document.getElementById("title").innerText = "🟥 RED BULL RACING 🟦";
+  typeText(
+    "Straight to the point 😌🔥\n\n" +
+    "Your jacket is at:\n\n" +
+    "📍 YOUR ADDRESS GOES HERE",
+    30
+  );
+  document.getElementById("buttons").innerHTML = `
+    <button onclick="greeting()">Continue 💖</button>
+  `;
+}
+
+function greeting() {
+  document.getElementById("title").innerText = "🎉 Once Again… 🎉";
+  typeText(
+    "Have a great year ahead ✨\n\n" +
+    "May it be full of happiness,\n" +
+    "success, and lots of Red Bull wins 😉❤️",
+    35
+  );
+  document.getElementById("buttons").innerHTML = "";
+}
+</script>
+
+</body>
+</html>
